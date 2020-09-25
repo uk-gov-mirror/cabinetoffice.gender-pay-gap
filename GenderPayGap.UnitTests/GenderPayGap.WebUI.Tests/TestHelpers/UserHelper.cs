@@ -37,13 +37,6 @@ namespace GenderPayGap.Tests.TestHelpers
             return user;
         }
 
-        public static User GetAdminUser()
-        {
-            User user = GetNotAdminUserWithoutVerifiedEmailAddress();
-            user.EmailAddress = "adminUser@AdminUser.com";
-            return user;
-        }
-
         public static User GetDatabaseAdmin()
         {
             return Mock.Of<User>(
@@ -52,13 +45,6 @@ namespace GenderPayGap.Tests.TestHelpers
                      && u.ContactEmailAddress == "testContactEmailAddress@emailAddress.com"
                      && u.ContactFirstName == "testContactFirstName"
                      && u.ContactLastName == "testContactLastName");
-        }
-
-        public static User GetRegisteredUserAlreadyLinkedToAnOrganisation(UserOrganisation userOrganisation)
-        {
-            User user = GetNotAdminUserWithVerifiedEmailAddress();
-            user.UserOrganisations = new[] {userOrganisation};
-            return user;
         }
 
     }

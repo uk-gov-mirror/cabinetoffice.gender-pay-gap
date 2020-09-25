@@ -9,57 +9,6 @@ namespace GenderPayGap.Tests.Common.TestHelpers
     public static class ReturnHelper
     {
 
-        private static Return GetSubmittedReturnWithAllDataPoints(User user)
-        {
-            var result = Mock.Of<Return>(report => report.Status == ReturnStatuses.Submitted);
-
-            result.ReturnId = new Random().Next(1000, 9999);
-
-            result.DiffMeanBonusPercent = new Random().Next(1, 99);
-            result.DiffMeanHourlyPayPercent = new Random().Next(1, 99);
-            result.DiffMedianBonusPercent = new Random().Next(1, 99);
-            result.DiffMedianHourlyPercent = new Random().Next(1, 99);
-
-            GetRandomValues(0, 100, out int diffMaleLowerPayBand, out int diffFemaleLowerPayBand);
-            result.FemaleLowerPayBand = diffFemaleLowerPayBand;
-            result.MaleLowerPayBand = diffMaleLowerPayBand;
-
-            GetRandomValues(1, 100, out int diffMaleMedianBonusPayPercent, out int diffFemaleMedianBonusPayPercent);
-            result.FemaleMedianBonusPayPercent = diffFemaleMedianBonusPayPercent;
-            result.MaleMedianBonusPayPercent = diffMaleMedianBonusPayPercent;
-
-            GetRandomValues(1, 100, out int diffMaleMiddlePayBand, out int diffFemaleMiddlePayBand);
-            result.FemaleMiddlePayBand = diffFemaleMiddlePayBand;
-            result.MaleMiddlePayBand = diffMaleMiddlePayBand;
-
-            GetRandomValues(1, 100, out int diffMaleUpperPayBand, out int diffFemaleUpperPayBand);
-            result.FemaleUpperPayBand = diffFemaleUpperPayBand;
-            result.MaleUpperPayBand = diffMaleUpperPayBand;
-
-            GetRandomValues(1, 100, out int diffMaleUpperQuartilePayBand, out int diffFemaleUpperQuartilePayBand);
-            result.FemaleUpperQuartilePayBand = diffFemaleUpperQuartilePayBand;
-            result.MaleUpperQuartilePayBand = diffMaleUpperQuartilePayBand;
-
-            int randomString = new Random().Next(10000, 99999);
-
-            result.JobTitle = $"JobTitle_{randomString}";
-            result.FirstName = $"Name_{randomString}";
-            result.LastName = $"LastName_{randomString}";
-
-            result.CompanyLinkToGPGInfo = string.Empty;
-
-            return result;
-        }
-
-        public static Return GetSubmittedReturnForOrganisationAndYear(UserOrganisation userOrganisation, int snapshotYear)
-        {
-            Return result = GetSubmittedReturnWithAllDataPoints(userOrganisation.User);
-            result.Organisation = userOrganisation.Organisation;
-            result.OrganisationId = userOrganisation.Organisation.OrganisationId;
-            result.AccountingDate = userOrganisation.Organisation.SectorType.GetAccountingStartDate(snapshotYear);
-            return result;
-        }
-
         /// <summary>
         ///     Creates a new Empty Return
         /// </summary>
@@ -73,12 +22,6 @@ namespace GenderPayGap.Tests.Common.TestHelpers
             newReturn.AccountingDate = userOrganisation.Organisation.SectorType.GetAccountingStartDate(snapshotYear);
 
             return newReturn;
-        }
-
-        private static void GetRandomValues(int min, int max, out int men, out int women)
-        {
-            men = new Random().Next(min, max);
-            women = max - men;
         }
 
         public static Return CreateTestReturnWithNoBonus(Organisation organisation, int testYear = 2017)

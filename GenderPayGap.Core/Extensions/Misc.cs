@@ -317,37 +317,6 @@ namespace GenderPayGap.Extensions
                 || System.Convert.GetTypeCode(type) != TypeCode.Object;
         }
 
-        public static object CopyProperties(this object source, object target)
-        {
-            Type targetType = target.GetType();
-            foreach (PropertyInfo sourceProperty in source.GetType().GetProperties())
-            {
-                MethodInfo propGetter = sourceProperty.GetGetMethod();
-                PropertyInfo targetProperty = targetType.GetProperty(sourceProperty.Name);
-                if (targetProperty == null)
-                {
-                    continue;
-                }
-
-                MethodInfo propSetter = targetProperty.GetSetMethod();
-                // check the property has a setter
-                if (propSetter != null)
-                {
-                    object valueToSet = propGetter.Invoke(source, null);
-                    propSetter.Invoke(target, new[] {valueToSet});
-                }
-            }
-
-            return target;
-        }
-
-        public static void SetProperty(this object source, string propName, object valueToSet)
-        {
-            PropertyInfo sourceProperty = source.GetType().GetProperty(propName);
-            MethodInfo propSetter = sourceProperty.GetSetMethod();
-            propSetter.Invoke(source, new[] {valueToSet});
-        }
-
         public static object GetPropertyValue(object Object, string PropertyName)
         {
             try
@@ -446,37 +415,6 @@ namespace GenderPayGap.Extensions
             }
 
             return false;
-        }
-
-
-        public static void FormatDecimals(this object obj)
-        {
-            // Loop through all properties
-            foreach (PropertyInfo p in obj.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
-            {
-                object value = p.GetValue(obj);
-                if (value == null)
-                {
-                    continue;
-                }
-
-                Type type = value.GetType();
-                if (type != typeof(decimal))
-                {
-                    continue;
-                }
-
-                // for every property loop through all attributes
-                foreach (DisplayFormatAttribute a in p.GetCustomAttributes(typeof(DisplayFormatAttribute), false))
-                {
-                    if (string.IsNullOrWhiteSpace(a.DataFormatString))
-                    {
-                        continue;
-                    }
-
-                    p.SetValue(obj, decimal.Parse(string.Format(a.DataFormatString, value)));
-                }
-            }
         }
 
         public static MethodBase FindParentWithAttribute<T>(this MethodBase callingMethod, int parentOffset = 0) where T : Attribute

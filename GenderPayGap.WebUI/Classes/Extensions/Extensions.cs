@@ -103,11 +103,6 @@ namespace GenderPayGap.WebUI.Classes
             controller.Session[controller + ":Model"] = Json.SerializeObjectDisposed(model);
         }
 
-        public static void StashModel<KeyT, ModelT>(this BaseController controller, KeyT keyController, ModelT model)
-        {
-            controller.Session[keyController + ":Model"] = Json.SerializeObjectDisposed(model);
-        }
-
         public static void ClearStash(this BaseController controller)
         {
             controller.Session.Remove(controller + ":Model");
@@ -167,24 +162,6 @@ namespace GenderPayGap.WebUI.Classes
             }
 
             decId = id;
-            return true;
-        }
-
-        public static bool DecryptToParams(this string enc, out List<string> outParams)
-        {
-            outParams = null;
-            if (string.IsNullOrWhiteSpace(enc))
-            {
-                return false;
-            }
-
-            string decParams = Encryption.DecryptData(enc.DecodeUrlBase64());
-            if (string.IsNullOrWhiteSpace(decParams))
-            {
-                return false;
-            }
-
-            outParams = new List<string>(decParams.Split(':'));
             return true;
         }
 

@@ -196,12 +196,6 @@ namespace GenderPayGap.Extensions
             return nsDecrypted.ToQueryString();
         }
 
-        public static string EncryptAsParams(params string[] param)
-        {
-            string encString = EncryptData(string.Join(":", param));
-            return encString.EncodeUrlBase64();
-        }
-
         public static string EncryptModel<TModel>(TModel model)
         {
             string modelSerialized = JsonConvert.SerializeObject(model);
