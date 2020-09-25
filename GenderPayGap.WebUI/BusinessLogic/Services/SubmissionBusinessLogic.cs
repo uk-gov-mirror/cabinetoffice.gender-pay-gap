@@ -50,8 +50,6 @@ namespace GenderPayGap.WebUI.BusinessLogic.Services
         {
             var model = new ReturnViewModel {
                 SectorType = reportToConvert.Organisation.SectorType,
-                ReturnId = reportToConvert.ReturnId,
-                OrganisationId = reportToConvert.OrganisationId,
                 EncryptedOrganisationId = reportToConvert.Organisation.GetEncryptedId(),
                 DiffMeanBonusPercent = reportToConvert.DiffMeanBonusPercent,
                 DiffMeanHourlyPayPercent = reportToConvert.DiffMeanHourlyPayPercent,
@@ -74,7 +72,6 @@ namespace GenderPayGap.WebUI.BusinessLogic.Services
                 AccountingDate = reportToConvert.AccountingDate,
                 Address = reportToConvert.Organisation.GetLatestAddress()?.GetAddressString(),
                 LatestAddress = reportToConvert.Organisation.GetLatestAddress()?.GetAddressString(),
-                EHRCResponse = reportToConvert.EHRCResponse.ToString(),
                 IsVoluntarySubmission = reportToConvert.IsVoluntarySubmission(),
                 IsLateSubmission = reportToConvert.IsLateSubmission
             };
@@ -88,14 +85,7 @@ namespace GenderPayGap.WebUI.BusinessLogic.Services
                                      ?? reportToConvert.Organisation.OrganisationName;
             model.LatestOrganisationName = reportToConvert.Organisation.OrganisationName;
 
-            model.Sector = reportToConvert.Organisation.GetSicSectorsString(reportToConvert.StatusDate);
-            model.LatestSector = reportToConvert.Organisation.GetSicSectorsString();
-
             model.OrganisationSize = reportToConvert.OrganisationSize;
-            model.Modified = reportToConvert.Modified;
-
-            model.IsInScopeForThisReportYear =
-                reportToConvert.Organisation.GetIsInscope(reportToConvert.AccountingDate.Year);
 
             return model;
         }

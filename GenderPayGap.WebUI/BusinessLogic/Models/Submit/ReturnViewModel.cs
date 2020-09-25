@@ -1,18 +1,12 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using GenderPayGap.Core;
-using GenderPayGap.WebUI.BusinessLogic.Models.Organisation;
 
 namespace GenderPayGap.WebUI.BusinessLogic.Models.Submit
 {
     [Serializable]
     public class ReturnViewModel
     {
-
-        public ReturnViewModel()
-        {
-            ReportInfo = new ReportInfoModel();
-        }
 
         [Required(AllowEmptyStrings = false)]
         [Display(Name = "Enter the difference in mean hourly rate")]
@@ -110,13 +104,10 @@ namespace GenderPayGap.WebUI.BusinessLogic.Models.Submit
         [DisplayFormat(DataFormatString = "{0:0.#}", ApplyFormatInEditMode = true)]
         public decimal? FemaleUpperQuartilePayBand { get; set; }
 
-        public long ReturnId { get; set; }
-        public long OrganisationId { get; set; }
         public string EncryptedOrganisationId { get; set; }
         public SectorTypes SectorType { get; set; }
 
         public DateTime AccountingDate { get; set; }
-        public DateTime Modified { get; set; }
 
         [Required(AllowEmptyStrings = false)]
         [Display(Name = "Job title")]
@@ -135,122 +126,18 @@ namespace GenderPayGap.WebUI.BusinessLogic.Models.Submit
         [Display(Name = "Link to your gender pay gap information")]
         public string CompanyLinkToGPGInfo { get; set; }
 
-        public string ReturnUrl { get; set; }
-        public string OriginatingAction { get; set; }
-
         public string Address { get; set; }
         public string LatestAddress { get; set; }
         public string OrganisationName { get; set; }
         public string LatestOrganisationName { get; set; }
         public OrganisationSizes OrganisationSize { get; set; }
-        public string Sector { get; set; }
-        public string LatestSector { get; set; }
-        public bool IsDifferentFromDatabase { get; set; }
 
         public bool IsVoluntarySubmission { get; set; }
         public bool IsLateSubmission { get; set; }
-        public bool ShouldProvideLateReason { get; set; }
-        public bool IsInScopeForThisReportYear { get; set; }
-
-        [Display(
-            Name =
-                "Please explain why your organisation is reporting or changing your gender pay gap figures or senior responsible person after the deadline.")]
-        [Required(AllowEmptyStrings = false, ErrorMessage = "You must provide your reason for being late")]
-        [MaxLength(200, ErrorMessage = "Your reason can only be 200 characters or less")]
-        public string LateReason { get; set; } = "";
-
-        [Required(AllowEmptyStrings = false, ErrorMessage = "You must tell us if you were contacted by EHRC")]
-        public string EHRCResponse { get; set; } = "";
-
-        public ReportInfoModel ReportInfo { get; set; }
-
-        public bool HasDraftWithContent()
-        {
-            if (ReportInfo == null)
-            {
-                return false;
-            }
-
-            return ReportInfo.HasDraftContent();
-        }
-
-        public bool HasReported()
-        {
-            return ReturnId != default;
-        }
-
-        public bool IsValidReturn()
-        {
-            bool hasEnterCalculationsData = DiffMeanHourlyPayPercent.HasValue
-                                            && DiffMedianHourlyPercent.HasValue
-                                            && MaleMedianBonusPayPercent.HasValue
-                                            && FemaleMedianBonusPayPercent.HasValue
-                                            && MaleLowerPayBand.HasValue
-                                            && FemaleLowerPayBand.HasValue
-                                            && MaleMiddlePayBand.HasValue
-                                            && FemaleMiddlePayBand.HasValue
-                                            && MaleUpperPayBand.HasValue
-                                            && FemaleUpperPayBand.HasValue
-                                            && MaleUpperQuartilePayBand.HasValue
-                                            && FemaleUpperQuartilePayBand.HasValue
-                                            && FemaleMoneyFromMeanHourlyRate >= 0
-                                            && FemaleMoneyFromMedianHourlyRate >= 0;
-
-            if (SectorType == SectorTypes.Public)
-            {
-                return hasEnterCalculationsData;
-            }
-
-            bool hasPersonResponsibleData = !string.IsNullOrWhiteSpace(JobTitle)
-                                            && !string.IsNullOrWhiteSpace(FirstName)
-                                            && !string.IsNullOrWhiteSpace(LastName);
-
-            return hasEnterCalculationsData && hasPersonResponsibleData;
-        }
-
-        public bool HasUserData()
-        {
-            return DiffMeanHourlyPayPercent.HasValue
-                   || DiffMedianHourlyPercent.HasValue
-                   || DiffMeanBonusPercent.HasValue
-                   || DiffMedianBonusPercent.HasValue
-                   || MaleMedianBonusPayPercent.HasValue
-                   || FemaleMedianBonusPayPercent.HasValue
-                   || MaleLowerPayBand.HasValue
-                   || FemaleLowerPayBand.HasValue
-                   || MaleMiddlePayBand.HasValue
-                   || FemaleMiddlePayBand.HasValue
-                   || MaleUpperPayBand.HasValue
-                   || FemaleUpperPayBand.HasValue
-                   || MaleUpperQuartilePayBand.HasValue
-                   || FemaleUpperQuartilePayBand.HasValue
-                   || FemaleMoneyFromMeanHourlyRate > 0
-                   || FemaleMoneyFromMedianHourlyRate > 0
-                   || !string.IsNullOrWhiteSpace(JobTitle)
-                   || !string.IsNullOrWhiteSpace(FirstName)
-                   || !string.IsNullOrWhiteSpace(LastName)
-                   || OrganisationSize > 0
-                   || !string.IsNullOrWhiteSpace(CompanyLinkToGPGInfo);
-        }
 
         #region Hourly Rate Helpers
 
         public bool FemaleHasLowerMeanHourlyPercent => DiffMeanHourlyPayPercent == null || DiffMeanHourlyPayPercent >= 0;
-
-        public decimal FemaleMoneyFromMeanHourlyRate
-        {
-            get
-            {
-                if (DiffMeanHourlyPayPercent == null)
-                {
-                    return 0;
-                }
-
-                return FemaleHasLowerMeanHourlyPercent
-                    ? 100 - DiffMeanHourlyPayPercent.Value
-                    : 100 + Math.Abs(DiffMeanHourlyPayPercent.Value);
-            }
-        }
 
         public bool FemaleHasLowerMedianHourlyPercent => DiffMedianHourlyPercent == null || DiffMedianHourlyPercent >= 0;
 

@@ -8,7 +8,6 @@ using GenderPayGap.Core.Models.HttpResultModels;
 using GenderPayGap.Database;
 using GenderPayGap.Database.Models;
 using GenderPayGap.Extensions;
-using GenderPayGap.WebUI.BusinessLogic.Models.Organisation;
 using GenderPayGap.WebUI.Classes;
 using GenderPayGap.WebUI.Models.Organisation;
 using Microsoft.AspNetCore.Authorization;

@@ -24,7 +24,6 @@ using GenderPayGap.WebUI.BusinessLogic.Abstractions;
 using GenderPayGap.WebUI.BusinessLogic.Services;
 using GenderPayGap.WebUI.Classes;
 using GenderPayGap.WebUI.Classes.Presentation;
-using GenderPayGap.WebUI.Classes.Services;
 using GenderPayGap.WebUI.Controllers.Admin;
 using GenderPayGap.WebUI.Cookies;
 using GenderPayGap.WebUI.ExternalServices;
@@ -240,7 +239,6 @@ namespace GenderPayGap.WebUI.Tests.TestHelpers
             // BL Services
             builder.RegisterInstance(Config.Configuration);
             builder.RegisterType<UpdateFromCompaniesHouseService>().As<UpdateFromCompaniesHouseService>().InstancePerLifetimeScope();
-            builder.RegisterType<DraftFileBusinessLogic>().As<IDraftFileBusinessLogic>().InstancePerLifetimeScope();
 
             builder.Register(
                     c => c.ResolveAsMock<ScopeBusinessLogic>(
@@ -267,14 +265,6 @@ namespace GenderPayGap.WebUI.Tests.TestHelpers
                         c.Resolve<ViewingSearchService>())
                     )
                 .As<IViewingService>()
-                .InstancePerLifetimeScope();
-
-            builder.Register(
-                    c => new SubmissionService(
-                        c.Resolve<IDataRepository>(),
-                        c.Resolve<IScopeBusinessLogic>(),
-                        c.Resolve<IDraftFileBusinessLogic>()))
-                .As<ISubmissionService>()
                 .InstancePerLifetimeScope();
 
             builder.RegisterType<CompareViewService>().As<ICompareViewService>().InstancePerLifetimeScope();

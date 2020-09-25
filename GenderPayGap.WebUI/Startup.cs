@@ -22,7 +22,6 @@ using GenderPayGap.WebUI.BusinessLogic.Abstractions;
 using GenderPayGap.WebUI.BusinessLogic.Services;
 using GenderPayGap.WebUI.Classes;
 using GenderPayGap.WebUI.Classes.Presentation;
-using GenderPayGap.WebUI.Classes.Services;
 using GenderPayGap.WebUI.ErrorHandling;
 using GenderPayGap.WebUI.ExternalServices;
 using GenderPayGap.WebUI.ExternalServices.CompaniesHouse;
@@ -237,12 +236,9 @@ namespace GenderPayGap.WebUI
             builder.RegisterType<UpdateFromCompaniesHouseService>().As<UpdateFromCompaniesHouseService>().InstancePerLifetimeScope();
 
             // register web ui services
-            builder.RegisterType<DraftFileBusinessLogic>().As<IDraftFileBusinessLogic>().InstancePerLifetimeScope();
-
             builder.RegisterType<ChangeDetailsViewService>().As<IChangeDetailsViewService>().InstancePerLifetimeScope();
             builder.RegisterType<ChangePasswordViewService>().As<IChangePasswordViewService>().InstancePerLifetimeScope();
             builder.RegisterType<CloseAccountViewService>().As<CloseAccountViewService>().InstancePerLifetimeScope();
-            builder.RegisterType<SubmissionService>().As<ISubmissionService>().InstancePerLifetimeScope();
             builder.RegisterType<ViewingService>().As<IViewingService>().InstancePerLifetimeScope();
             builder.RegisterType<ViewingSearchService>().As<ViewingSearchService>().InstancePerLifetimeScope();
             builder.RegisterType<SearchViewService>().As<ISearchViewService>().InstancePerLifetimeScope();

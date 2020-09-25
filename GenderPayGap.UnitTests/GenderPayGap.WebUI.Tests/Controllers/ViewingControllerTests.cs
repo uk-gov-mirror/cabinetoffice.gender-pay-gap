@@ -978,8 +978,6 @@ namespace GenderPayGap.WebUI.Tests.Controllers
 
             var expectedModel = new ReturnViewModel();
             expectedModel.SectorType = report.Organisation.SectorType;
-            expectedModel.ReturnId = report.ReturnId;
-            expectedModel.OrganisationId = report.OrganisationId;
             expectedModel.EncryptedOrganisationId = report.Organisation.GetEncryptedId();
             expectedModel.DiffMeanBonusPercent = report.DiffMeanBonusPercent;
             expectedModel.DiffMeanHourlyPayPercent = report.DiffMeanHourlyPayPercent;
@@ -1015,19 +1013,7 @@ namespace GenderPayGap.WebUI.Tests.Controllers
                 expectedModel.LatestOrganisationName = null;
             }
 
-            expectedModel.Sector = report.Organisation.GetSicSectorsString(report.StatusDate);
-            expectedModel.LatestSector = report.Organisation.GetSicSectorsString();
-            if (expectedModel.Sector.EqualsI(expectedModel.LatestSector))
-            {
-                expectedModel.LatestSector = null;
-            }
-
             expectedModel.OrganisationSize = report.OrganisationSize;
-            expectedModel.Modified = report.Modified;
-
-            expectedModel.IsInScopeForThisReportYear = false; // as org.scope is "out of scope", this MUST be false.
-
-            expectedModel.EHRCResponse = "False";
 
             var controller = UiTestHelper.GetController<ViewingController>(default, null, org, report);
             string obfuscatedOrganisationId = org.GetEncryptedId();
