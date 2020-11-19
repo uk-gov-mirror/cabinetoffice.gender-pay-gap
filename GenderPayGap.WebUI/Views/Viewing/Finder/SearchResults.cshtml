@@ -1,44 +1,42 @@
 @model GenderPayGap.WebUI.Models.Search.SearchViewModel
 @{
-    ViewBag.Title = "Search for an employer's gender pay gap report - GOV.UK";
-    ViewBag.pageDescription = "Search for an employer by name or type to view their gender pay gap data";
+    ViewBag.Title = "Search for an employer's gender pay gap report - Gender pay gap service";
+    Layout = "~/Views/GovUkFrontend/GovUkFrontendLayout.cshtml";
+    
     if (string.IsNullOrWhiteSpace(ViewBag.ReturnUrl))
     {
         ViewBag.ReturnUrl = Context.GetUri().PathAndQuery;
     }
 }
-<div class="grid-row">
-    <div class="column-full">
-        @using (Html.BeginForm("SearchResults", "Viewing", FormMethod.Get, new {id = "FinderForm", @class = "js-live-search-form"}))
-        {
-            <partial name="~/Views/Compare/ComparisonBasket.cshtml" model="ViewBag.BasketViewModel"/>
-            <div class="grid-row">
-                <div style="margin-top: 15px;"> 
-                    <partial name="/Views/Components/CovidMessage.cshtml"/> 
-                </div> 
-            </div>
-            <div class="grid-row finder">
-                <div class="column-two-thirds">
-                    <partial name="Finder/Parts/Facets/Keywords" model="Model"/>
-                </div>
-            </div>
 
-            <div class="grid-row finder">
-                <div class="column-one-third">
-                    <partial name="Finder/Parts/Filter" model="Model"/>
-                </div>
-                <div class="column-two-thirds js-live-search-results-block" aria-live="assertive">
-                    <div id="loading"></div>
-                    <div id="main">
-                        <partial name="Finder/Parts/MainContent" model="Model"/>
-                    </div>
-                </div>
-            </div>
-        }
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <partial name="~/Views/Compare/ComparisonBasket.cshtml" model="ViewBag.BasketViewModel"/>
+        <partial name="/Views/Components/CovidMessage.cshtml"/>
     </div>
 </div>
 
-@section Scripts {
+<form method="GET" action="@Url.Action("SearchResults", "Viewing", new {id = "FinderForm", @class = "js-live-search-form"})">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <partial name="Finder/Parts/Facets/Keywords" model="Model"/>
+        </div>
+    </div>
+    
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-one-third">
+            <partial name="Finder/Parts/Filter" model="Model"/>
+        </div>
+        <div class="govuk-grid-column-two-thirds js-live-search-results-block" aria-live="assertive">
+            <div id="loading"></div>
+            <div id="main">
+                <partial name="Finder/Parts/MainContent" model="Model"/>
+            </div>
+        </div>
+    </div>
+</form>
+
+@*@section Scripts {
     <script>
         (function () {
             "use strict";
@@ -75,4 +73,4 @@
         }());
 
     </script>
-}
+}*@

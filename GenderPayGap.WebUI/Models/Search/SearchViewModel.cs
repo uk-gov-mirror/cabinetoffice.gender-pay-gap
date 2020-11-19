@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using GenderPayGap.Core.Classes;
 using GenderPayGap.Core.Models;
+using GovUkDesignSystem;
 
 namespace GenderPayGap.WebUI.Models.Search
 {
     [Serializable]
-    public class SearchViewModel
+    public class SearchViewModel : GovUkViewModel
     {
 
         private List<string> _reportingStatusFilterInfo;
